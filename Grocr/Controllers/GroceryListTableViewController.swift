@@ -7,7 +7,8 @@ class GroceryListTableViewController: UITableViewController {
 
   // MARK: Constants
   let listToUsers = "ListToUsers"
-  
+  let ref = Database.database().reference(withPath: "grocery-items")
+
   // MARK: Properties
   var items: [GroceryItem] = []
   var user: User!
@@ -33,6 +34,29 @@ class GroceryListTableViewController: UITableViewController {
     navigationItem.leftBarButtonItem = userCountBarButtonItem
     
     user = User(uid: "FakeId", email: "hungry@person.food")
+    
+//    ref.observe(.value, with: { snapshot in
+//        print(snapshot.value as Any)
+//    })
+    
+    // Attached a listener to recieve updates whenever the "grocery-items" is modified
+    ref.observe(.value, with: { snapshot in
+        // Stores the latest version of the data in the local variable inside the listener's closure
+        var newItems: [GroceryItem] = []
+        
+        // Returns a snapshot of the lastest set of data. Using children, we loop through the grocery items
+        for child in snapshot.children {
+            // Creates an instance of GroceryItem and adds it into the newItems array
+            if let snapshot = child as? DataSnapshot,
+                let groceryItem = GroceryItem(snapshot: snapshot) {
+                newItems.append(groceryItem)
+            }
+        }
+        // Replace items with new data to display
+        self.items = newItems
+        self.tableView.reloadData()
+    })
+    
   }
   
   // MARK: UITableView Delegate methods
@@ -94,12 +118,16 @@ class GroceryListTableViewController: UITableViewController {
                                   preferredStyle: .alert)
     
     let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-      let textField = alert.textFields![0]
+      guard let textField = alert.textFields?.first,
+        let text = textField.text else { return }
       
-      let groceryItem = GroceryItem(name: textField.text!,
+    let groceryItem = GroceryItem(name: text,
                                     addedByUser: self.user.email,
                                     completed: false)
-      
+        
+    let groceryItemRef = self.ref.child(text.lowercased())
+
+    groceryItemRef.setValue(groceryItem.toAnyObject())
       self.items.append(groceryItem)
       self.tableView.reloadData()
     }
