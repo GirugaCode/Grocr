@@ -35,27 +35,38 @@ class GroceryListTableViewController: UITableViewController {
     
     user = User(uid: "FakeId", email: "hungry@person.food")
     
-//    ref.observe(.value, with: { snapshot in
-//        print(snapshot.value as Any)
-//    })
-    
-    // Attached a listener to recieve updates whenever the "grocery-items" is modified
-    ref.observe(.value, with: { snapshot in
-        // Stores the latest version of the data in the local variable inside the listener's closure
+    // Use queryOrdered to sort the items by child in this case "completed"
+    ref.queryOrdered(byChild: "completed").observe(.value, with: { snapshot in
+        // Stores the data in a local var
         var newItems: [GroceryItem] = []
-        
-        // Returns a snapshot of the lastest set of data. Using children, we loop through the grocery items
         for child in snapshot.children {
-            // Creates an instance of GroceryItem and adds it into the newItems array
             if let snapshot = child as? DataSnapshot,
                 let groceryItem = GroceryItem(snapshot: snapshot) {
                 newItems.append(groceryItem)
             }
         }
-        // Replace items with new data to display
+        
         self.items = newItems
         self.tableView.reloadData()
     })
+
+//    // Attached a listener to recieve updates whenever the "grocery-items" is modified
+//    ref.observe(.value, with: { snapshot in
+//        // Stores the latest version of the data in the local variable inside the listener's closure
+//        var newItems: [GroceryItem] = []
+//
+//        // Returns a snapshot of the lastest set of data. Using children, we loop through the grocery items
+//        for child in snapshot.children {
+//            // Creates an instance of GroceryItem and adds it into the newItems array
+//            if let snapshot = child as? DataSnapshot,
+//                let groceryItem = GroceryItem(snapshot: snapshot) {
+//                newItems.append(groceryItem)
+//            }
+//        }
+//        // Replace items with new data to display
+//        self.items = newItems
+//        self.tableView.reloadData()
+//    })
     
   }
   
