@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		287DC3EE21F7BC8F00E9643C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 287DC3ED21F7BC8F00E9643C /* GoogleService-Info.plist */; };
 		645D7898204344160093B00C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D7897204344160093B00C /* AppDelegate.swift */; };
 		645D789F204344160093B00C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 645D789E204344160093B00C /* Assets.xcassets */; };
 		645D78A2204344160093B00C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 645D78A0204344160093B00C /* LaunchScreen.storyboard */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		287DC3ED21F7BC8F00E9643C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		645D7894204344160093B00C /* Grocr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grocr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		645D7897204344160093B00C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		645D789E204344160093B00C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				645D789E204344160093B00C /* Assets.xcassets */,
 				645D78A0204344160093B00C /* LaunchScreen.storyboard */,
 				645D78A3204344160093B00C /* Info.plist */,
+				287DC3ED21F7BC8F00E9643C /* GoogleService-Info.plist */,
 			);
 			path = Grocr;
 			sourceTree = "<group>";
@@ -127,8 +130,6 @@
 				645D7890204344160093B00C /* Sources */,
 				645D7891204344160093B00C /* Frameworks */,
 				645D7892204344160093B00C /* Resources */,
-				EBE69ACA1FBD54203AA5CDAB /* [CP] Embed Pods Frameworks */,
-				421E7F30566C19C7F9E68750 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -184,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				649F422820438D5400B21997 /* Main.storyboard in Resources */,
+				287DC3EE21F7BC8F00E9643C /* GoogleService-Info.plist in Resources */,
 				645D78A2204344160093B00C /* LaunchScreen.storyboard in Resources */,
 				645D789F204344160093B00C /* Assets.xcassets in Resources */,
 			);
@@ -208,36 +210,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		421E7F30566C19C7F9E68750 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Grocr/Pods-Grocr-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EBE69ACA1FBD54203AA5CDAB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Grocr/Pods-Grocr-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
