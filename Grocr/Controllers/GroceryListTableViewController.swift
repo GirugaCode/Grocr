@@ -82,9 +82,10 @@ class GroceryListTableViewController: UITableViewController {
   }
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    // Deletes an item from the tableview and firebase
     if editingStyle == .delete {
-      items.remove(at: indexPath.row)
-      tableView.reloadData()
+        let groceryItem = items[indexPath.row]
+        groceryItem.ref?.removeValue()
     }
   }
   
@@ -118,16 +119,21 @@ class GroceryListTableViewController: UITableViewController {
                                   preferredStyle: .alert)
     
     let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+      // Gets the text field and text from alert controller
       guard let textField = alert.textFields?.first,
         let text = textField.text else { return }
-      
+        
+    // Uses the current user's data, creates a new uncompleted GroceryItem
     let groceryItem = GroceryItem(name: text,
                                     addedByUser: self.user.email,
                                     completed: false)
-        
+    
+    // Creates a child reference for the database
     let groceryItemRef = self.ref.child(text.lowercased())
 
+    // Saves data to the database
     groceryItemRef.setValue(groceryItem.toAnyObject())
+        
       self.items.append(groceryItem)
       self.tableView.reloadData()
     }
