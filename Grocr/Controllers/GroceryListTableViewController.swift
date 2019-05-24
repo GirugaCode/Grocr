@@ -13,6 +13,7 @@ class GroceryListTableViewController: UITableViewController {
     var items: [GroceryItem] = []
     var user: User!
     var userCountBarButtonItem: UIBarButtonItem!
+    let usersRef = Database.database().reference(withPath: "online")
     
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -43,8 +44,15 @@ class GroceryListTableViewController: UITableViewController {
         Auth.auth().addStateDidChangeListener { auth, user in
             guard let user = user else { return }
             self.user = User(authData: user)
+            
+            // Create a child reference using a user’s uid
+            let currentUserRef = self.usersRef.child(self.user.uid)
+            // Uses the current reference to save the current user's email
+            currentUserRef.setValue(self.user.email)
+            // Removes the value at the reference’s location after the connection to Firebase closes
+            currentUserRef.onDisconnectRemoveValue()
+
         }
-        
     }
     
     // MARK: UITableView Delegate methods
