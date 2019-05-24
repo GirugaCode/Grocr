@@ -11,6 +11,7 @@ class OnlineUsersTableViewController: UITableViewController {
     
     // MARK: Properties
     var currentUsers: [String] = []
+    let usersRef = Database.database().reference(withPath: "online")
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -19,7 +20,8 @@ class OnlineUsersTableViewController: UITableViewController {
     // MARK: UIViewController Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentUsers.append("hungry@person.food")
+        
+        displayOnlineUsers()
     }
     
     // MARK: UITableView Delegate methods
@@ -33,6 +35,35 @@ class OnlineUsersTableViewController: UITableViewController {
         let onlineUserEmail = currentUsers[indexPath.row]
         cell.textLabel?.text = onlineUserEmail
         return cell
+    }
+    
+    // MARK: Function
+    func displayOnlineUsers() {
+        // Observer that listens for children added to the location managed by usersRef
+        usersRef.observe(.childAdded, with: { snap in
+            // Take the value from the snapshot, and then append it to the local array
+            guard let email = snap.value as? String else { return }
+            self.currentUsers.append(email)
+            // The current row is always the count of the local array minus one. The length of the array
+            let row = self.currentUsers.count - 1
+            // Create an instance NSIndexPath using the calculated row index
+            let indexPath = IndexPath(row: row, section: 0)
+            // Insert the row using an animation that causes the cell to be inserted from the top
+            self.tableView.insertRows(at: [indexPath], with: .top)
+        })
+        
+        // Observer that listens for children that are signed out of the app
+        usersRef.observe(.childRemoved, with: { snap in
+            guard let emailToFind = snap.value as? String else { return }
+            for (index, email) in self.currentUsers.enumerated() {
+                if email == emailToFind {
+                    let indexPath = IndexPath(row: index, section: 0)
+                    self.currentUsers.remove(at: index)
+                    self.tableView.deleteRows(at: [indexPath], with: .fade)
+                }
+            }
+        })
+
     }
     
     // MARK: Actions

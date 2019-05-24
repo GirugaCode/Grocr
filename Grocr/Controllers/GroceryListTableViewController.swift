@@ -51,8 +51,17 @@ class GroceryListTableViewController: UITableViewController {
             currentUserRef.setValue(self.user.email)
             // Removes the value at the reference’s location after the connection to Firebase closes
             currentUserRef.onDisconnectRemoveValue()
-
         }
+        
+        // An observer that is used to monitor online users
+        usersRef.observe(.value, with: { snapshot in
+            if snapshot.exists() {
+                self.userCountBarButtonItem?.title = snapshot.childrenCount.description
+            } else {
+                self.userCountBarButtonItem?.title = "0"
+            }
+        })
+
     }
     
     // MARK: UITableView Delegate methods
